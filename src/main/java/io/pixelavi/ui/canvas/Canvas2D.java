@@ -18,15 +18,8 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
     private static final Color PAINT_COLOR = Color.BLACK;
     private static final Color BASE_COLOR = Color.WHITE;
+    private static final int CANVAS_MULTIPLIER = 36;
     private static final int CANVAS_MAX_SIZE = 26;
-
-    private static int CANVAS_MULTIPLIER = 1;
-
-    static {
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int max = Math.min(screen.width, screen.height);
-        Canvas2D.CANVAS_MULTIPLIER = (int) Math.floor((max / 1.5D) / CANVAS_MAX_SIZE);
-    }
 
     private final int[][] matrix = new int[CANVAS_MAX_SIZE][CANVAS_MAX_SIZE];
     private final Dimension target;
