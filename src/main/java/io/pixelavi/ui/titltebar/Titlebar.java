@@ -41,7 +41,7 @@ public class Titlebar extends TitlebarCore {
         g.setColor(Theme.BACKGROUND.getColor());
         g.fillRect(0, 0, dimension.width, dimension.height);
         if (image != null) {
-            g.drawImage(image, 5, 5, null);
+            g.drawImage(image, 5, 4, null);
         }
         Font font = g.getFont();
         if (title != null) {
