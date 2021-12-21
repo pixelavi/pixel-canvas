@@ -23,13 +23,12 @@ public abstract class TitlebarCore extends JComponent implements MouseListener, 
     private final int DEFAULT_COMPONENT_SIZE = 26;
 
     private Point initialClick;
+    private TitlebarButton[] components = new TitlebarButton[0];
 
     public TitlebarCore() {
         addMouseMotionListener(this);
         addMouseListener(this);
     }
-
-    private TitlebarButton[] components = new TitlebarButton[0];
 
     private void insert(int position, TitlebarButton component) {
         TitlebarButton[] components = new TitlebarButton[this.components.length + 1];

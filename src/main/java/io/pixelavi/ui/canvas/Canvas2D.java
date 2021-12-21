@@ -1,5 +1,7 @@
 package io.pixelavi.ui.canvas;
 
+import io.pixelavi.ui.color.ColorCallback;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -11,12 +13,11 @@ import java.awt.event.MouseMotionListener;
  * Author: Twitter @niffyeth
  **/
 
-public class Canvas2D extends JComponent implements MouseListener, MouseMotionListener {
+public class Canvas2D extends JComponent implements MouseListener, MouseMotionListener, ColorCallback {
 
     private static final Color LINE_COLOR = new Color(255, 255, 255, 50);
     private static final Color OFFSET_COLOR = new Color(204, 204, 204);
     private static final Color TRANSPARENT = new Color(0, 0, 0, 0);
-    private static final Color PAINT_COLOR = Color.BLACK;
     private static final Color BASE_COLOR = Color.WHITE;
     private static final int CANVAS_MULTIPLIER = 36;
     private static final int CANVAS_MAX_SIZE = 26;
@@ -24,6 +25,7 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     private final int[][] matrix = new int[CANVAS_MAX_SIZE][CANVAS_MAX_SIZE];
     private final Dimension target;
 
+    private Color paint = Color.BLACK;
     private DrawMode mode;
 
     public Canvas2D() {
@@ -40,7 +42,7 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
         int vectorX = (int) Math.floor(p.getX() / CANVAS_MULTIPLIER);
         int vectorY = (int) Math.floor(p.getY() / CANVAS_MULTIPLIER);
         if (vectorX < 0 || vectorY < 0 || vectorX >= CANVAS_MAX_SIZE || vectorY >= CANVAS_MAX_SIZE) return;
-        Color color = mode == DrawMode.PAINT ? PAINT_COLOR : TRANSPARENT;
+        Color color = mode == DrawMode.PAINT ? paint : TRANSPARENT;
         matrix[vectorX][vectorY] = color.getRGB();
         repaint();
     }
@@ -112,5 +114,10 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    @Override
+    public void onColorChange(Color color) {
+        this.paint = color;
     }
 }

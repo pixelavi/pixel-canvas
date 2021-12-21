@@ -16,13 +16,12 @@ import java.io.InputStream;
 public class Titlebar extends TitlebarCore {
 
     private final String title;
+    private BufferedImage image;
 
     public Titlebar(String title) {
         this.title = title;
         setPreferredSize(new Dimension(0, 40));
     }
-
-    private BufferedImage image;
 
     public void setIcon(String name) throws IOException {
         try (InputStream stream = Titlebar.class.getClassLoader().getResourceAsStream(name)) {

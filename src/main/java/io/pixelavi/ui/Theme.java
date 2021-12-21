@@ -11,7 +11,8 @@ import java.util.Objects;
 
 public enum Theme {
     BACKGROUND(Color.decode("#1A1A1A")),
-    FOREGROUND(Color.decode("#939393"));
+    FOREGROUND(Color.decode("#939393")),
+    COMPONENT(Color.decode("#2c2f33"));
 
     public static Font[] FONTS = new Font[3];
     public static Font BOLD;

@@ -1,6 +1,8 @@
 package io.pixelavi;
 
 import io.pixelavi.ui.canvas.Canvas2D;
+import io.pixelavi.ui.color.*;
+import io.pixelavi.ui.sidebar.Sidebar;
 import io.pixelavi.ui.titltebar.Titlebar;
 import io.pixelavi.ui.titltebar.TitlebarFrame;
 
@@ -20,7 +22,25 @@ public class Main {
         titlebar.addCustomUnicodeComponent("_", () -> frame.setState(Frame.ICONIFIED));
 
         Container container = frame.getContainer();
-        container.add(new Canvas2D(), BorderLayout.CENTER);
+        Canvas2D canvas2D = new Canvas2D();
+        container.add(canvas2D, BorderLayout.CENTER);
+
+        Sidebar sidebar = new Sidebar();
+        sidebar.setLayout(new BorderLayout());
+
+        ColorPalette palette = new ColorPalette(canvas2D);
+        ColorContainer color = new ColorContainer();
+        ColorSelection selection = new ColorSelection();
+        ColorPalettePreview preview = new ColorPalettePreview(palette);
+        HueSlider slider = new HueSlider();
+        selection.addObserver(preview);
+        slider.addObserver(selection);
+        color.add(selection, BorderLayout.NORTH);
+        color.add(slider, BorderLayout.CENTER);
+        color.add(preview, BorderLayout.WEST);
+        color.add(palette, BorderLayout.SOUTH);
+        sidebar.add(color, BorderLayout.NORTH);
+        container.add(sidebar, BorderLayout.EAST);
 
         frame.setUndecorated(true);
         frame.pack();
