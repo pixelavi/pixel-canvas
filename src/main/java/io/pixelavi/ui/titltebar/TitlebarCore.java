@@ -92,7 +92,7 @@ public abstract class TitlebarCore extends JComponent implements MouseListener, 
         for (int i = 0; i < components.length; i++) {
             TitlebarButton component = components[i];
             if (component.isHovered()) g.setColor(Color.WHITE);
-            else g.setColor(Theme.FOREGROUND.getColor());
+            else g.setColor(Theme.UI.getColor());
             int x = offsetX - (32 * (1 + i)), y = 7;
             RoundRectangle2D bounds = new RoundRectangle2D.Float(x, y, DEFAULT_COMPONENT_SIZE, DEFAULT_COMPONENT_SIZE, 13, 13);
             Graphics2D graphics2D = (Graphics2D) g;

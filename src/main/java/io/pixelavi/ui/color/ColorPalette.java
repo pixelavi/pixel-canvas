@@ -1,26 +1,29 @@
 package io.pixelavi.ui.color;
 
+import io.pixelavi.observer.Observable;
 import io.pixelavi.ui.Theme;
 import io.pixelavi.ui.WrapLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created: 21.12.2021 00:44
  * Author: Twitter @niffyeth
  **/
 
-public class ColorPalette extends JComponent implements ColorPaletteCallback {
+public class ColorPalette extends JComponent implements ColorPaletteCallback, Observable<ColorCallback, Color> {
 
-    private final ColorCallback callback;
+    private final List<ColorCallback> list = new ArrayList<>();
 
-    public ColorPalette(ColorCallback callback) {
+    public ColorPalette() {
         this.setBorder(new EmptyBorder(0, 14, 0, 14));
         this.setLayout(new WrapLayout(0, 4, 4));
         this.setPreferredSize(new Dimension(0, 62));
-        this.callback = callback;
+        this.onPaletteColorAdd(Color.BLACK);
     }
 
     @Override
@@ -39,15 +42,23 @@ public class ColorPalette extends JComponent implements ColorPaletteCallback {
         }
         add(new ColorPaletteItem(this, color), 0);
         revalidate();
-        forward(color);
+        notifyObserver(color);
     }
 
     @Override
     public void onPaletteSelection(Color color) {
-        forward(color);
+        notifyObserver(color);
     }
 
-    private void forward(Color color) {
-        callback.onColorChange(color);
+    @Override
+    public void addObserver(ColorCallback update) {
+        list.add(update);
+    }
+
+    @Override
+    public void notifyObserver(Color color) {
+        for (ColorCallback observer : list) {
+            observer.onColorChange(color);
+        }
     }
 }

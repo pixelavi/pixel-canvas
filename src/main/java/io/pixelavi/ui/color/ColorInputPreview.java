@@ -11,14 +11,14 @@ import java.awt.geom.Ellipse2D;
  * Author: Twitter @niffyeth
  **/
 
-public class ColorPalettePreview extends JComponent2D implements IColorUpdate {
+public class ColorInputPreview extends JComponent2D implements IColorUpdate {
 
     private Color color;
 
-    public ColorPalettePreview(ColorPaletteCallback callback) {
+    public ColorInputPreview(ColorPaletteCallback callback) {
         this.onColorUpdate(Color.WHITE);
         this.setPreferredSize(new Dimension(50, 0));
-        this.register(new Ellipse2D.Double(17, 7, 26, 26), new PalettePreviewInteraction(5, e -> callback.onPaletteColorAdd(color)));
+        this.register(new Ellipse2D.Double(17, 2, 26, 26), new PalettePreviewInteraction(0, e -> callback.onPaletteColorAdd(color)));
     }
 
     @Override
@@ -26,11 +26,11 @@ public class ColorPalettePreview extends JComponent2D implements IColorUpdate {
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(Color.BLACK);
-        g.fillOval(15, 5, 30, 30);
+        g.fillOval(15, 0, 30, 30);
         g.setColor(Color.WHITE);
-        g.fillOval(16, 6, 28, 28);
+        g.fillOval(16, 1, 28, 28);
         g.setColor(color);
-        g.fillOval(17, 7, 26, 26);
+        g.fillOval(17, 2, 26, 26);
         super.paintComponent(g);
     }
 

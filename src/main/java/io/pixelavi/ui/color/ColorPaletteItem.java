@@ -36,6 +36,10 @@ public class ColorPaletteItem extends JComponent implements MouseListener {
         graphics2D.fill(shape);
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 

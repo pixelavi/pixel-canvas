@@ -10,16 +10,18 @@ import java.util.Objects;
  **/
 
 public enum Theme {
+    LIGHT_COMPONENT(Color.decode("#40444b")),
     BACKGROUND(Color.decode("#1A1A1A")),
-    FOREGROUND(Color.decode("#939393")),
-    COMPONENT(Color.decode("#2c2f33"));
+    FOREGROUND(Color.decode("#dcddde")),
+    COMPONENT(Color.decode("#2c2f33")),
+    UI(Color.decode("#939393"));
 
     public static Font[] FONTS = new Font[3];
     public static Font BOLD;
 
     static {
         try {
-            Theme.BOLD = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Theme.class.getClassLoader().getResourceAsStream("PixeloidSansBold.ttf"))).deriveFont((float) 32);
+            Theme.BOLD = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Theme.class.getClassLoader().getResourceAsStream("PixeloidSansBold.ttf"))).deriveFont((float) 24);
             for (int i = 0; i < FONTS.length; i++) {
                 FONTS[i] = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Theme.class.getClassLoader().getResourceAsStream("PixeloidSans.ttf"))).deriveFont((float) 18 + (i * 10));
             }

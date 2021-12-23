@@ -5,8 +5,8 @@ package io.pixelavi.observer;
  * Author: Twitter @niffyeth
  **/
 
-public interface Observable<T> {
+public interface Observable<T, V> {
     void addObserver(T t);
 
-    void notifyObserver();
+    void notifyObserver(V v);
 }

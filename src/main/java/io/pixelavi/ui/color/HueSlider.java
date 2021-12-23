@@ -1,7 +1,6 @@
 package io.pixelavi.ui.color;
 
 import io.pixelavi.observer.Observable;
-import io.pixelavi.ui.Theme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +16,7 @@ import java.util.List;
  * Author: Twitter @niffyeth
  **/
 
-public class HueSlider extends JComponent implements Observable<IColorUpdate>, MouseMotionListener, MouseListener {
+public class HueSlider extends JComponent implements Observable<IColorUpdate, Color>, MouseMotionListener, MouseListener {
 
     private final ColorSelectionHint hint = new ColorSelectionHint();
     private final List<IColorUpdate> list = new ArrayList<>();
@@ -38,8 +37,6 @@ public class HueSlider extends JComponent implements Observable<IColorUpdate>, M
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension dimension = getSize();
-        g.setColor(Theme.COMPONENT.getColor());
-        g.fillRect(0, 0, dimension.width, dimension.height);
         g.setColor(Color.BLACK);
         g.drawRect(PADDING - 1, PADDING - 1, dimension.width - (PADDING << 1) + 1, dimension.height - (PADDING << 1) + 1);
         this.cache = new BufferedImage(dimension.width - (PADDING << 1), dimension.height - (PADDING << 1), BufferedImage.TYPE_INT_RGB);
@@ -74,7 +71,7 @@ public class HueSlider extends JComponent implements Observable<IColorUpdate>, M
         Color color = getColor(hint.getX(), hint.getY());
         hint.setColor(color);
         repaint();
-        notifyObserver();
+        notifyObserver(color);
     }
 
     @Override
@@ -118,8 +115,7 @@ public class HueSlider extends JComponent implements Observable<IColorUpdate>, M
     }
 
     @Override
-    public void notifyObserver() {
-        Color color = hint.getColor();
+    public void notifyObserver(Color color) {
         float hue = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null)[0];
         for (IColorUpdate observer : list) {
             observer.onHueUpdate(hue);

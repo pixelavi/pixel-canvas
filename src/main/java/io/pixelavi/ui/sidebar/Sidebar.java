@@ -1,5 +1,7 @@
 package io.pixelavi.ui.sidebar;
 
+import io.pixelavi.ui.Theme;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,5 +19,8 @@ public class Sidebar extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Dimension dimension = getSize();
+        g.setColor(Theme.COMPONENT.getColor());
+        g.fillRect(0, 0, dimension.width, dimension.height);
     }
 }

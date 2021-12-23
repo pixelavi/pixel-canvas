@@ -1,5 +1,6 @@
 package io.pixelavi.ui.canvas;
 
+import io.pixelavi.ui.Theme;
 import io.pixelavi.ui.color.ColorCallback;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     private static final Color BASE_COLOR = Color.WHITE;
     private static final int CANVAS_MULTIPLIER = 36;
     private static final int CANVAS_MAX_SIZE = 26;
+    private static final int PADDING = 14;
 
     private final int[][] matrix = new int[CANVAS_MAX_SIZE][CANVAS_MAX_SIZE];
     private final Dimension target;
@@ -30,7 +32,7 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
 
     public Canvas2D() {
         int max = CANVAS_MULTIPLIER * CANVAS_MAX_SIZE;
-        this.target = new Dimension(max, max);
+        this.target = new Dimension(max + PADDING, max + (PADDING << 1));
         addMouseMotionListener(this);
         addMouseListener(this);
         setPreferredSize(target);
@@ -39,8 +41,8 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     }
 
     private void modify(Point p) {
-        int vectorX = (int) Math.floor(p.getX() / CANVAS_MULTIPLIER);
-        int vectorY = (int) Math.floor(p.getY() / CANVAS_MULTIPLIER);
+        int vectorX = (int) Math.floor((p.getX() - PADDING) / CANVAS_MULTIPLIER);
+        int vectorY = (int) Math.floor((p.getY() - PADDING) / CANVAS_MULTIPLIER);
         if (vectorX < 0 || vectorY < 0 || vectorX >= CANVAS_MAX_SIZE || vectorY >= CANVAS_MAX_SIZE) return;
         Color color = mode == DrawMode.PAINT ? paint : TRANSPARENT;
         matrix[vectorX][vectorY] = color.getRGB();
@@ -50,8 +52,9 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(BASE_COLOR);
-        g.fillRect(0, 0, target.width, target.height);
+        Dimension dimension = getSize();
+        g.setColor(Theme.COMPONENT.getColor());
+        g.fillRect(0, 0, dimension.width, dimension.height);
         for (int x = 0; x < CANVAS_MAX_SIZE; x++) {
             for (int y = 0; y < CANVAS_MAX_SIZE; y++) {
                 Color color = new Color(matrix[x][y], true);
@@ -64,18 +67,19 @@ public class Canvas2D extends JComponent implements MouseListener, MouseMotionLi
                             boolean modX = (i % 2) == 0;
                             boolean modY = (j % 2) == 0;
                             g.setColor(modX ? modY ? BASE_COLOR : OFFSET_COLOR : !modY ? BASE_COLOR : OFFSET_COLOR);
-                            g.fillRect(i, j, trans, trans);
+                            g.fillRect(i + PADDING, j + PADDING, trans, trans);
                         }
                     }
                 } else {
                     g.setColor(color);
-                    g.fillRect(baseX, baseY, CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
+                    g.fillRect(baseX + PADDING, baseY + PADDING, CANVAS_MULTIPLIER, CANVAS_MULTIPLIER);
                 }
-
                 if (CANVAS_MULTIPLIER < 10) continue;
+
                 g.setColor(LINE_COLOR);
-                g.drawLine((x + 1) * CANVAS_MULTIPLIER - 1, y * CANVAS_MULTIPLIER, (x + 1) * CANVAS_MULTIPLIER - 1, (y + 1) * CANVAS_MULTIPLIER);
-                g.drawLine(x * CANVAS_MULTIPLIER, (y + 1) * CANVAS_MULTIPLIER - 1, (x + 1) * CANVAS_MULTIPLIER, (y + 1) * CANVAS_MULTIPLIER - 1);
+                g.drawLine((x + 1) * CANVAS_MULTIPLIER - 1 + PADDING, y * CANVAS_MULTIPLIER + PADDING, (x + 1) * CANVAS_MULTIPLIER - 1 + PADDING, (y + 1) * CANVAS_MULTIPLIER - 1 + PADDING);
+                g.drawLine(x * CANVAS_MULTIPLIER + PADDING, (y + 1) * CANVAS_MULTIPLIER - 1 + PADDING, (x + 1) * CANVAS_MULTIPLIER + PADDING, (y + 1) * CANVAS_MULTIPLIER - 1 + PADDING);
+
             }
         }
     }

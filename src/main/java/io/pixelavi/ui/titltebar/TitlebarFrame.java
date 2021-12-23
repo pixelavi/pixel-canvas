@@ -17,7 +17,7 @@ public class TitlebarFrame extends JFrame {
     public TitlebarFrame(String title, String resource) {
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
-        container.setPreferredSize(new Dimension(1286, 976));
+        container.setPreferredSize(new Dimension(1300, 1004));
 
         this.titlebar = new Titlebar(title);
         try {

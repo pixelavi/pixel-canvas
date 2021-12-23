@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        TitlebarFrame frame = new TitlebarFrame("Pixel Canvas", "rocket-32px.png");
+        TitlebarFrame frame = new TitlebarFrame(null, "rocket-27px.png");
         Titlebar titlebar = frame.getTitlebar();
 
         titlebar.addCustomUnicodeComponent("✖", () -> System.exit(0));
@@ -28,18 +28,40 @@ public class Main {
         Sidebar sidebar = new Sidebar();
         sidebar.setLayout(new BorderLayout());
 
-        ColorPalette palette = new ColorPalette(canvas2D);
-        ColorContainer color = new ColorContainer();
-        ColorSelection selection = new ColorSelection();
+        ColorContainer main = new ColorContainer();
+        ColorInput info = new ColorInput();
+
+        ColorPalette palette = new ColorPalette();
+        palette.addObserver(canvas2D);
+
         ColorPalettePreview preview = new ColorPalettePreview(palette);
-        HueSlider slider = new HueSlider();
+        ColorSelection selection = new ColorSelection();
         selection.addObserver(preview);
+        selection.addObserver(info);
+
+        HueSlider slider = new HueSlider();
         slider.addObserver(selection);
-        color.add(selection, BorderLayout.NORTH);
-        color.add(slider, BorderLayout.CENTER);
-        color.add(preview, BorderLayout.WEST);
-        color.add(palette, BorderLayout.SOUTH);
-        sidebar.add(color, BorderLayout.NORTH);
+
+        main.add(selection, BorderLayout.NORTH);
+        main.add(slider, BorderLayout.CENTER);
+        main.add(preview, BorderLayout.WEST);
+
+        ColorContainer south = new ColorContainer();
+        ColorIndicator indicator = new ColorIndicator();
+        palette.addObserver(indicator);
+
+        ColorContainer input = new ColorContainer();
+        ColorInputPreview manual = new ColorInputPreview(palette);
+        info.addObserver(manual);
+        input.add(info, BorderLayout.CENTER);
+        input.add(manual, BorderLayout.WEST);
+        south.add(input, BorderLayout.NORTH);
+
+        south.add(indicator, BorderLayout.WEST);
+        south.add(palette, BorderLayout.CENTER);
+
+        main.add(south, BorderLayout.SOUTH);
+        sidebar.add(main, BorderLayout.NORTH);
         container.add(sidebar, BorderLayout.EAST);
 
         frame.setUndecorated(true);

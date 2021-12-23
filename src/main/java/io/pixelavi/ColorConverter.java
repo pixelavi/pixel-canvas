@@ -17,6 +17,11 @@ public class ColorConverter {
         return Color.getHSBColor(hue, 1.0f, 1.0f);
     }
 
+    public static int[] convertToRGB(Color color) {
+        int argb = color.getRGB();
+        return new int[]{(argb >> 16) & 0xFF, (argb >> 8) & 0xFF, (argb) & 0xFF};
+    }
+
     public static int[] convertToHSV(float[] hsb) {
         return new int[]{Math.round(hsb[0] * 360f), Math.round(hsb[1] * 100f), Math.round(hsb[2] * 100f)};
     }

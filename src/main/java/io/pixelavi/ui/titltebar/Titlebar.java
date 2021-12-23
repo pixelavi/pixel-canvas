@@ -40,7 +40,8 @@ public class Titlebar extends TitlebarCore {
         g.setColor(Theme.BACKGROUND.getColor());
         g.fillRect(0, 0, dimension.width, dimension.height);
         if (image != null) {
-            g.drawImage(image, 5, 4, null);
+            int padding = (dimension.height - image.getHeight()) >> 1;
+            g.drawImage(image, padding, (dimension.height >> 1) - (image.getHeight() >> 1), null);
         }
         Font font = g.getFont();
         if (title != null) {
